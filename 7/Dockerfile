@@ -31,7 +31,8 @@ ENV APACHE_HTTP_PORT="80" \
     MARIADB_PORT="3306"
 
 #Add SuiteCRM scheduled tasks to cron.
-RUN echo "* * * * * root cd /opt/bitnami/suitecrm; /opt/bitnami/php/bin/php -f cron.php 2>&1" >>/etc/crontab
+#Fixes newer CRM requirements of not allowing root crontjobs
+RUN cat /opt/bitnami/suitecrm/conf/cron >>/etc/crontab
 
 VOLUME ["/bitnami/suitecrm", "/bitnami/apache", "/bitnami/php"]
 
